@@ -1,0 +1,25 @@
+{
+    "intents": [
+	{
+          "intent": "FeelingIntent"
+		},        
+		{
+          "intent": "AssessmentIntent"
+		},        
+		{
+          "intent": "SuggestionIntent"
+		},        
+		{
+          "intent": "ExitIntent"
+		},        
+		{
+          "intent": "AMAZON.StopIntent"
+		},        
+		{
+          "intent": "AMAZON.CancelIntent"
+		},        
+		{
+          "intent": "AMAZON.HelpIntent"
+		}
+	]
+}
