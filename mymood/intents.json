@@ -1,25 +1,47 @@
 {
+  "languageModel": {
     "intents": [
-	{
-          "intent": "FeelingIntent"
-		},        
-		{
-          "intent": "AssessmentIntent"
-		},        
-		{
-          "intent": "SuggestionIntent"
-		},        
-		{
-          "intent": "ExitIntent"
-		},        
-		{
-          "intent": "AMAZON.StopIntent"
-		},        
-		{
-          "intent": "AMAZON.CancelIntent"
-		},        
-		{
-          "intent": "AMAZON.HelpIntent"
-		}
-	]
+      {
+        "name": "AMAZON.CancelIntent",
+        "samples": []
+      },
+      {
+        "name": "AMAZON.HelpIntent",
+        "samples": []
+      },
+      {
+        "name": "AMAZON.StopIntent",
+        "samples": []
+      },
+      {
+        "name": "AssessmentIntent",
+        "samples": [
+          "Assess Me"
+        ],
+        "slots": []
+      },
+      {
+        "name": "ExitIntent",
+        "samples": [
+          "I am done"
+        ],
+        "slots": []
+      },
+      {
+        "name": "FeelingIntent",
+        "samples": [
+          "I want to talk about my feelings."
+        ],
+        "slots": []
+      },
+      {
+        "name": "SuggestionIntent",
+        "samples": [
+          "I need help"
+        ],
+        "slots": []
+      }
+    ],
+    "invocationName": "my mood"
+  }
 }
