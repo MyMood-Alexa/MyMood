@@ -1,5 +1,46 @@
 {
   "languageModel": {
+    "types": [
+      {
+        "name": "mood",
+        "values": [
+          {
+            "id": null,
+            "name": {
+              "value": "bad",
+              "synonyms": [
+                "terrible",
+                "horrible",
+                "sad",
+                "depressed"
+              ]
+            }
+          },
+          {
+            "id": null,
+            "name": {
+              "value": "good",
+              "synonyms": [
+                "great",
+                "fantastic",
+                "awesome"
+              ]
+            }
+          },
+          {
+            "id": null,
+            "name": {
+              "value": "okay",
+              "synonyms": [
+                "soso",
+                "all right",
+                "not bad"
+              ]
+            }
+          }
+        ]
+      }
+    ],
     "intents": [
       {
         "name": "AMAZON.CancelIntent",
@@ -35,6 +76,21 @@
         "slots": []
       },
       {
+        "name": "MoodResponseIntent",
+        "samples": [
+          "I'm feeling {feeling}"
+        ],
+        "slots": [
+          {
+            "name": "feeling",
+            "type": "mood",
+            "samples": [
+              "{feeling}"
+            ]
+          }
+        ]
+      },
+      {
         "name": "SuggestionIntent",
         "samples": [
           "I need help"
@@ -43,5 +99,36 @@
       }
     ],
     "invocationName": "my mood"
+  },
+  "prompts": [
+    {
+      "id": "Elicit.Intent-MoodResponseIntent.IntentSlot-feeling",
+      "variations": [
+        {
+          "type": "PlainText",
+          "value": "How are you feeling today?"
+        }
+      ]
+    }
+  ],
+  "dialog": {
+    "intents": [
+      {
+        "name": "MoodResponseIntent",
+        "confirmationRequired": false,
+        "prompts": {},
+        "slots": [
+          {
+            "name": "feeling",
+            "type": "mood",
+            "elicitationRequired": true,
+            "confirmationRequired": false,
+            "prompts": {
+              "elicitation": "Elicit.Intent-MoodResponseIntent.IntentSlot-feeling"
+            }
+          }
+        ]
+      }
+    ]
   }
 }
