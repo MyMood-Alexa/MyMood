@@ -6,12 +6,15 @@ ask = Ask(app, '/')
 
 @ask.launch
 def start_app():
-    start_msg = "Hello."
+    start_msg = """
+                Hello. You can tell me about your day, take an assessment, 
+                or as me to look for professional help... Which would you like?
+                """
     return question(start_msg)
 
 @ask.intent("FeelingIntent")
 def feelings():
-    exit_msg = "How do you feel"
+    exit_msg = "How do you feel?"
     return question(exit_msg)
 
 
