@@ -4,24 +4,35 @@ from flask_ask import Ask, statement, question, session
 app = Flask(__name__)
 ask = Ask(app, '/')
 
+#TODO fix all hardcoded responses
+
 @ask.launch
 def start_app():
     start_msg = """
                 Hello. You can tell me about your day, take an assessment, 
-                or as me to look for professional help... Which would you like?
+                or ask me to look for professional help... Which would you like?
                 """
-    return question(start_msg)
+    reprompt_msg =  """
+                Would you like to talk about your day, take an assessment,
+                or look for professional help?
+                """
+    return question(start_msg) \
+        .reprompt(reprompt_msg)
 
 @ask.intent("FeelingIntent")
 def feelings():
     exit_msg = "How do you feel?"
-    return question(exit_msg)
+    reprompt_msg = "I didn't get that. How are you feeling?"
+    return question(exit_msg) \
+        .reprompt(reprompt_msg)
 
 
 @ask.intent("AssessmentIntent")
 def assessment():
     exit_msg = "Here is a question"
-    return question(exit_msg)
+    reprompt_msg = "Here is the same question"
+    return question(exit_msg) \
+        .reprompt(reprompt_msg)
 
 @ask.intent("SuggestionIntent")
 def suggest():
