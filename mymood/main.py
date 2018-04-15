@@ -27,6 +27,10 @@ def feelings():
         .reprompt(reprompt_msg)
 
 
+@ask.intent("MoodResponseIntent")
+def mood_response():
+    pass
+
 @ask.intent("AssessmentIntent")
 def assessment():
     exit_msg = "Here is a question"
