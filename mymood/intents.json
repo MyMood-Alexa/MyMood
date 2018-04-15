@@ -1,134 +1,148 @@
 {
-  "languageModel": {
-    "types": [
-      {
-        "name": "mood",
-        "values": [
-          {
-            "id": null,
-            "name": {
-              "value": "bad",
-              "synonyms": [
-                "terrible",
-                "horrible",
-                "sad",
-                "depressed"
-              ]
-            }
-          },
-          {
-            "id": null,
-            "name": {
-              "value": "good",
-              "synonyms": [
-                "great",
-                "fantastic",
-                "awesome"
-              ]
-            }
-          },
-          {
-            "id": null,
-            "name": {
-              "value": "okay",
-              "synonyms": [
-                "soso",
-                "all right",
-                "not bad"
-              ]
-            }
-          }
-        ]
-      }
-    ],
-    "intents": [
-      {
-        "name": "AMAZON.CancelIntent",
-        "samples": []
-      },
-      {
-        "name": "AMAZON.HelpIntent",
-        "samples": []
-      },
-      {
-        "name": "AMAZON.StopIntent",
-        "samples": []
-      },
-      {
-        "name": "AssessmentIntent",
-        "samples": [
-          "Assess Me"
-        ],
-        "slots": []
-      },
-      {
-        "name": "ExitIntent",
-        "samples": [
-          "I am done"
-        ],
-        "slots": []
-      },
-      {
-        "name": "FeelingIntent",
-        "samples": [
-          "I want to talk about my feelings."
-        ],
-        "slots": []
-      },
-      {
-        "name": "MoodResponseIntent",
-        "samples": [
-          "I'm feeling {feeling}"
-        ],
-        "slots": [
-          {
-            "name": "feeling",
-            "type": "mood",
-            "samples": [
-              "{feeling}"
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "my mood",
+            "intents": [
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AssessmentIntent",
+                    "slots": [],
+                    "samples": [
+                        "Quiz me.",
+                        "I want to take a quiz.",
+                        "I want to assess my mood.",
+                        "Rate my mood.",
+                        "Assess Me"
+                    ]
+                },
+                {
+                    "name": "ExitIntent",
+                    "slots": [],
+                    "samples": [
+                        "I am done"
+                    ]
+                },
+                {
+                    "name": "FeelingIntent",
+                    "slots": [],
+                    "samples": [
+                        "Talk to me.",
+                        "Lets talk.",
+                        "I want to talk.",
+                        "I want to talk about my day.",
+                        "I want to talk about my mood.",
+                        "I want to talk about my feelings."
+                    ]
+                },
+                {
+                    "name": "MoodResponseIntent",
+                    "slots": [
+                        {
+                            "name": "feeling",
+                            "type": "mood",
+                            "samples": [
+                                "{feeling}"
+                            ]
+                        }
+                    ],
+                    "samples": [
+                        "I'm feeling {feeling}"
+                    ]
+                },
+                {
+                    "name": "SuggestionIntent",
+                    "slots": [],
+                    "samples": [
+                        "Find help.",
+                        "Help me.",
+                        "Get help.",
+                        "Find nearby help.",
+                        "Where can I find help",
+                        "Where can I get help.",
+                        "I need help"
+                    ]
+                }
+            ],
+            "types": [
+                {
+                    "name": "mood",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "bad",
+                                "synonyms": [
+                                    "terrible",
+                                    "horrible",
+                                    "sad",
+                                    "depressed"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "good",
+                                "synonyms": [
+                                    "great",
+                                    "fantastic",
+                                    "awesome"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "okay",
+                                "synonyms": [
+                                    "soso",
+                                    "all right",
+                                    "not bad"
+                                ]
+                            }
+                        }
+                    ]
+                }
             ]
-          }
-        ]
-      },
-      {
-        "name": "SuggestionIntent",
-        "samples": [
-          "I need help"
-        ],
-        "slots": []
-      }
-    ],
-    "invocationName": "my mood"
-  },
-  "prompts": [
-    {
-      "id": "Elicit.Intent-MoodResponseIntent.IntentSlot-feeling",
-      "variations": [
-        {
-          "type": "PlainText",
-          "value": "How are you feeling today?"
-        }
-      ]
-    }
-  ],
-  "dialog": {
-    "intents": [
-      {
-        "name": "MoodResponseIntent",
-        "confirmationRequired": false,
-        "prompts": {},
-        "slots": [
-          {
-            "name": "feeling",
-            "type": "mood",
-            "elicitationRequired": true,
-            "confirmationRequired": false,
-            "prompts": {
-              "elicitation": "Elicit.Intent-MoodResponseIntent.IntentSlot-feeling"
+        },
+        "dialog": {
+            "intents": [
+                {
+                    "name": "MoodResponseIntent",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "feeling",
+                            "type": "mood",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Intent-MoodResponseIntent.IntentSlot-feeling"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        "prompts": [
+            {
+                "id": "Elicit.Intent-MoodResponseIntent.IntentSlot-feeling",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "How are you feeling today?"
+                    }
+                ]
             }
-          }
         ]
-      }
-    ]
-  }
+    }
 }
