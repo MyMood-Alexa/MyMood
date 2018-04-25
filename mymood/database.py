@@ -49,3 +49,15 @@ def add_responses(time, responses):
     )
     
 
+def update_responses(time, responses):
+    table.update_item(
+        Key={
+                "date": str(date),
+                "time": time
+            },
+        UpdateExpression="set responses = :r",
+        ExpressionAttributeValues={
+                ":r": responses,
+            },
+        ReturnValues="UPDATED_NEW"
+        )
