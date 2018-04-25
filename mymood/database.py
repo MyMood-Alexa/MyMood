@@ -38,3 +38,14 @@ def create_table():
     print("Table status:", table.table_status)
     
     
+def add_responses(time, responses):
+    #string, string, list
+    table.put_item(
+        Item={
+            "date": str(date),
+            "time": time,
+            "responses": responses,
+        }
+    )
+    
+
