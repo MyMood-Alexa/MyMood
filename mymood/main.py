@@ -42,6 +42,10 @@ def assessment():
 def suggest():
     exit_msg = "Here are some suggestions"
     return statement(exit_msg)
+	
+@ask.intent("ProfessionalHelpIntent")
+def prohelp():
+	return find_therapist()
 
 @ask.intent("ExitIntent")
 def exit_app():
