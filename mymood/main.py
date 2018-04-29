@@ -1,11 +1,12 @@
 from flask import Flask, render_template
-from flask_ask import Ask, statement, question, session
-
+from flask_ask import context, request, version, Ask, statement, question, session
+import locator
+import database
 app = Flask(__name__)
 ask = Ask(app, '/')
 
 #TODO fix all hardcoded responses
-
+#TODO get time for when a session started
 @ask.launch
 def start_app():
     start_msg = """
@@ -16,8 +17,10 @@ def start_app():
                 Would you like to talk about your day, take an assessment,
                 or look for professional help?
                 """
+
     return question(start_msg) \
         .reprompt(reprompt_msg)
+
 
 @ask.intent("FeelingIntent")
 def feelings():
@@ -29,6 +32,8 @@ def feelings():
 
 @ask.intent("MoodResponseIntent")
 def mood_response():
+    #TODO get user's response and add to the database
+    #database.add_responses("Session ID: {}".format(session.sessionId), time, responses) 
     pass
 
 @ask.intent("AssessmentIntent")
@@ -45,7 +50,7 @@ def suggest():
 	
 @ask.intent("ProfessionalHelpIntent")
 def prohelp():
-	return find_therapist()
+    return locator.find_nearby_help()
 
 @ask.intent("ExitIntent")
 def exit_app():

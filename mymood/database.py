@@ -7,13 +7,15 @@ table = dynamodb.Table("Interactions")
 date = datetime.date.today()
 
 def create_table():
-    #TODO need key to differentiate users
+    #Key1: sessionId from Alexa
+    #Key2: Time from when the session started
     table = dynamodb.create_table(
         TableName='Interactions',
         KeySchema=[
             {
-                'AttributeName': 'date',
+                'AttributeName': 'sessionId',
                 'KeyType': 'HASH'
+                        
             },
             {
                 'AttributeName': 'time',
@@ -22,7 +24,7 @@ def create_table():
         ],
         AttributeDefinitions=[
             {
-                'AttributeName': 'date',
+                'AttributeName': 'sessionId',
                 'AttributeType': 'S'
             },
             {
@@ -37,22 +39,22 @@ def create_table():
         )
     print("Table status:", table.table_status)
     
-    
-def add_responses(time, responses):
+create_table();
+def add_responses(sessionId, time, responses):
     #string, string, list
     table.put_item(
         Item={
-            "date": str(date),
+            "sessionId": sessionId,
             "time": time,
             "responses": responses,
         }
     )
     
 
-def update_responses(time, responses):
+def update_responses(sessionId, time, responses):
     table.update_item(
         Key={
-                "date": str(date),
+                "sessionId": sessionId,
                 "time": time
             },
         UpdateExpression="set responses = :r",
