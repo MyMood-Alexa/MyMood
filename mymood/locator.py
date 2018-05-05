@@ -32,7 +32,6 @@ def find_nearby_help():
     # keyword for Google Places search
     keyword = "therapist OR psychologist OR counselor"
     # defaulting return contents to None
-    helps = None
     try:
         # attempt to access Alexa's address
         address, city, state = get_location()
@@ -79,8 +78,5 @@ def find_nearby_help():
                 place_phone = details_json['result']['international_phone_number']
                 
                 # constructing return statement with place name and phone number
-                helps = statement("I've found professional help nearby. The place is called {} and their phone number is {}.".format(place_name, place_phone))
-    else:
-        return "Sorry, I'm having trouble doing that right now. Please try again later."
-    
-    return helps
+                return "I've found professional help nearby. The place is called {} and their phone number is {}.".format(place_name, place_phone)
+    return "Sorry, I'm having trouble doing that right now. Please try again later."
