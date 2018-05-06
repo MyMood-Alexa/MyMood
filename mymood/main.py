@@ -1,38 +1,32 @@
 from flask import Flask, render_template
 from flask_ask import context, request, version, Ask, statement, question, session
-from Interaction import Interaction
 import locator
 import database
 import datetime
+from interaction import Interaction
 
 
 app = Flask(__name__)
 ask = Ask(app, '/')
 
-interaction = None
 
 #TODO fix all hardcoded responses
 #TODO get time for when a session started
 @ask.launch
 def start_app():
-    global interaction
+    session.attributes['session_id'] = "{}".format(session.sessionId)
+    session.attributes['session_time']  = str(datetime.datetime.now())
+    session.attributes['responses'] = []
     
-    session_id = "{}".format(session.sessionId)
-    session_time = datetime.datetime.now()
-    interaction = Interaction(session_id, session_time)
-    
-    start_msg = """
-                Hello. You can tell me about your day, take an assessment, 
-                or ask me to look for professional help... Which would you like?
-                """
-    reprompt_msg =  """
-                Would you like to talk about your day, take an assessment,
-                or look for professional help?
-                """
-    
+    start_msg = "Hello. You can tell me about your day, take an assessment," \
+                " or ask me to look for professional help... Which would you like?"
+                
+    reprompt_msg = "Would you like to talk about your day, take an assessment," \
+                " or look for professional help?"
+                
     session.attributes["State"] = "None"
   
-    interaction.update_response(start_msg)
+    session.attributes['responses'].append(start_msg)
     
     return question(start_msg) \
         .reprompt(reprompt_msg)
@@ -292,27 +286,36 @@ def repeat_intent():
 @ask.intent("ExitIntent")
 def exit_app():
     exit_msg = "Goodbye."
-    database.add_responses(interaction) 
+    database.add_interaction(session.attributes['session_id'],
+                             session.attributes['session_time'],
+                             session.attributes['responses']) 
     return statement(exit_msg)
 
 
 @ask.intent("AMAZON.StopIntent")
 def stop_intent():
     exit_msg = "Farewell"
-    database.add_responses(interaction) 
+    database.add_interaction(session.attributes['session_id'],
+                             session.attributes['session_time'],
+                             session.attributes['responses']) 
     return statement(exit_msg)
 
 
 @ask.intent("AMAZON.CancelIntent")
 def cancel_intent():
+    #database.add_i('233322','555',['144','444'])
+    database.add_interaction(session.attributes['session_id'],
+                             session.attributes['session_time'],
+                             session.attributes['responses']) 
     exit_msg = "Sayonara"
-    database.add_responses(interaction) 
     return statement(exit_msg)
 
 
 @ask.session_ended
 def session_ended():
-    database.add_responses(interaction) 
+    database.add_interaction(session.attributes['session_id'],
+                             session.attributes['session_time'],
+                             session.attributes['responses']) 
     return "{}", 200
 
 
@@ -324,6 +327,7 @@ def help_intent():
 def confirm():
     confirm_msg = ""
     return question(confirm_msg)
+
 
 
 if __name__ == '__main__':

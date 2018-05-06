@@ -1,5 +1,5 @@
 
-from Interaction import Interaction
+from interaction import Interaction
 import boto3
 import datetime
 
@@ -8,7 +8,6 @@ boto3.setup_default_session(region_name='us-west-1')
 dynamodb = boto3.resource("dynamodb") 
 table = dynamodb.Table("Interactions")
 date = datetime.date.today()
-
 
 def create_table():
     #Key1: sessionId from Alexa
@@ -44,18 +43,19 @@ def create_table():
     print("Table status:", table.table_status)
     
     
-def add_interaction(interaction):
+def add_interaction(session_id, time, responses):
     #string, string, list
     table.put_item(
         Item={
-            "sessionId": interaction.session_id,
-            "time": interaction.time,
-            "responses": interaction.responses,
+            "sessionId": session_id,
+            "time": time,
+            "responses": responses,
         }
     )
     
-
+    
 def update_responses(interaction):
+    global table
     table.update_item(
         Key={
             "sessionId": interaction.session_id,
