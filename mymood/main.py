@@ -50,8 +50,11 @@ def mood_response():
 # Differential Diagnosis Decision Tree constructed from DSM-IV
 @ask.intent("AssessmentIntent")
 def assessment():
+    # initiate assessment response for checking
+    if (session.attributes.get("assess_response") is None):
+        session.attributes["assess_response"] = "unknown"
     # turn on state
-    if(session.attributes.get("State") is None or session.attributes["State"] != "Assessment"):
+    if (session.attributes.get("State") is None or session.attributes["State"] != "Assessment" or session.attributes["assess_response"] == "unknown"):
         session.attributes["State"] = "Assessment"
         session.attributes["assess_step"] = "0"
         session.attributes["assess_manic"] = "unknown"
@@ -73,7 +76,7 @@ def assessment():
                  '10': "Have you experienced periods of depression for two or more years?",
                  '11': "Have you been depressed more often than not for two or more years?",
                  '12': "Have you been stressed?",
-                 '13': "mood disorder due to general medical condition",
+                 '13': "mood disorder due to a general medical condition",
                  '14': "substance induced mood disorder",
                  '16': "bipolar one disorder",
                  '17': "bipolar type of schizoaffective disorder",
@@ -240,6 +243,8 @@ def assessment():
         session.attributes["State"] = "None"
         return statement(msg)
     else:
+        # reset assessment response
+        session.attributes["assess_response"] = "unknown"
         # return next question
         msg = next_step
         # save msg if user wants to repeat
@@ -280,7 +285,8 @@ def repeat_intent():
     if (session.attributes.get("Repeat") is None):
         return statement("Sorry there is nothing to repeat")
     repeat_msg = session.attributes["Repeat"]
-    return statement(repeat_msg)
+    return question(repeat_msg) \
+            .reprompt(repeat_msg)
 
 
 @ask.intent("ExitIntent")
