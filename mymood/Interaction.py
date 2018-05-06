@@ -2,7 +2,6 @@
 
 class Interaction:
     
-    
     def __init__(self, session_id=None, time=None, responses=[]):
         self.session_id = session_id
         self.responses = responses
@@ -20,4 +19,6 @@ class Interaction:
             print(x)
             
         print()
-        
+    
+    def get_session(self):
+        return self.session_id
