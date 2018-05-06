@@ -57,7 +57,7 @@ def mood_response():
 @ask.intent("AssessmentIntent")
 def assessment():
     # turn on state
-    if(session.attributes["State"] != "Assessment"):
+    if(session.attributes.get("State") is None or session.attributes["State"] != "Assessment"):
         session.attributes["State"] = "Assessment"
         session.attributes["assess_step"] = "0"
         session.attributes["assess_manic"] = "unknown"
@@ -222,12 +222,15 @@ def assessment():
     # prepare message
     next_step = responses.get(session.attributes["assess_step"], "-1")
 
+    # convert assess_step to determine if assessment is done
+    stepInt = int(session.attributes["assess_step"])
+    
     # assessment complete
-    if (int(session.attributes["assess_step"]) > 12 or int(session.attributes["assess_step"]) < 0):
-        if (int(session.attributes["assess_step"]) == 28):
+    if (stepInt > 12 or stepInt < 0):
+        if (stepInt == 28):
             # return no disorder diagnosis
             msg = "Congratulations. You have {}".format(next_step)
-        elif (int(session.attributes["assess_step"]) > 12):
+        elif (stepInt > 12):
             # return disorder diagnosis
             msg = "You may be experiencing a {}. Keep in mind, I am not an expert. Seek professional advice if you need to.".format(next_step)
         else:
@@ -241,8 +244,7 @@ def assessment():
                 """
         # reset session state
         session.attributes["State"] = "None"
-        return statement(msg) \
-            .reprompt(reprompt_msg)
+        return statement(msg)
     else:
         # return next question
         msg = next_step
@@ -279,8 +281,10 @@ def no_intent():
         return assessment()
     return start_app()
 
-@ask.intent("RepeatIntent")
+@ask.intent("AMAZON.RepeatIntent")
 def repeat_intent():
+    if (session.attributes.get("Repeat") is None):
+        return statement("Sorry there is nothing to repeat")
     repeat_msg = session.attributes["Repeat"]
     return statement(repeat_msg)
 
