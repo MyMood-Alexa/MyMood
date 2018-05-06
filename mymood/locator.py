@@ -37,7 +37,7 @@ def find_nearby_help():
         # attempt to access Alexa's address
         address, city, state = get_location()
     except:
-        return statement("I don't have permission to get your location. Please allow access to your location and try again")
+        return "I don't have permission to get your location. Please allow access to your location and try again"
     
     location = "'{} {} {}'".format(address, city, state)
     geocodeURL = "https://maps.googleapis.com/maps/api/geocode/json?address={}&key={}".format(location,key)
