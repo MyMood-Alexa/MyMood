@@ -50,6 +50,11 @@ def mood_response():
 # Differential Diagnosis Decision Tree constructed from DSM-IV
 @ask.intent("AssessmentIntent")
 def assessment():
+    # initialize sessionid if it hasnt been already
+    if (session.attributes.get('session_id') is None):
+        session.attributes['session_id'] = "{}".format(session.sessionId)
+        session.attributes['session_time']  = str(datetime.datetime.now())
+        session.attributes['responses'] = []
     # initiate assessment response for checking
     if (session.attributes.get("assess_response") is None):
         session.attributes["assess_response"] = "unknown"
