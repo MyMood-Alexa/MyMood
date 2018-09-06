@@ -43,13 +43,15 @@ def create_table():
     print("Table status:", table.table_status)
     
     
-def add_interaction(session_id, time, responses):
-    #string, string, list
+def add_interaction(session_id, time, responses, device_id, user_id):
+    #string, string, list, string
     table.put_item(
         Item={
             "sessionId": session_id,
             "time": time,
             "responses": responses,
+            "deviceId": device_id,
+            "userId": user_id
         }
     )
     
@@ -72,9 +74,10 @@ def update_responses(interaction):
 def get_all_interactions():
     interactions = []
     response = table.scan()
+    
     for s in response["Items"]:
-        interaction = Interaction(s['sessionId'], s['time'], s['responses'])
+        interaction = Interaction(s['sessionId'], s['time'], s['responses'], 
+                                  s['deviceId'], s['user_id'])
         interactions.append(interaction)
+        
     return interactions
-
-

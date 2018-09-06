@@ -17,6 +17,8 @@ def start_app():
     session.attributes['session_id'] = "{}".format(session.sessionId)
     session.attributes['session_time']  = str(datetime.datetime.now())
     session.attributes['responses'] = []
+    session.attributes['device_id'] = "{}".format(context.System.device.deviceId)
+    session.attributes['user_id'] = "{}".format(session.user.userId)
     
     start_msg = "Hello. You can tell me about your day, take an assessment," \
                 " or ask me to look for professional help... Which would you like?"
@@ -55,6 +57,8 @@ def assessment():
         session.attributes['session_id'] = "{}".format(session.sessionId)
         session.attributes['session_time']  = str(datetime.datetime.now())
         session.attributes['responses'] = []
+        session.attributes['device_id'] = "{}".format(context.System.device.deviceId)
+        session.attributes['user_id'] = "{}".format(session.user.userId)
     # initiate assessment response for checking
     if (session.attributes.get("assess_response") is None):
         session.attributes["assess_response"] = "unknown"
@@ -299,7 +303,9 @@ def exit_app():
     exit_msg = "Goodbye."
     database.add_interaction(session.attributes['session_id'],
                              session.attributes['session_time'],
-                             session.attributes['responses']) 
+                             session.attributes['responses'],
+                             session.attributes['device_id'],
+                             session.attributes['user_id']) 
     return statement(exit_msg)
 
 
@@ -308,7 +314,9 @@ def stop_intent():
     exit_msg = "Farewell"
     database.add_interaction(session.attributes['session_id'],
                              session.attributes['session_time'],
-                             session.attributes['responses']) 
+                             session.attributes['responses'],
+                             session.attributes['device_id'],
+                             session.attributes['user_id']) 
     return statement(exit_msg)
 
 
@@ -317,7 +325,9 @@ def cancel_intent():
     #database.add_i('233322','555',['144','444'])
     database.add_interaction(session.attributes['session_id'],
                              session.attributes['session_time'],
-                             session.attributes['responses']) 
+                             session.attributes['responses'],
+                             session.attributes['device_id'],
+                             session.attributes['user_id']) 
     exit_msg = "Sayonara"
     return statement(exit_msg)
 
@@ -326,7 +336,9 @@ def cancel_intent():
 def session_ended():
     database.add_interaction(session.attributes['session_id'],
                              session.attributes['session_time'],
-                             session.attributes['responses']) 
+                             session.attributes['responses'],
+                             session.attributes['device_id'],
+                             session.attributes['user_id']) 
     return "{}", 200
 
 
