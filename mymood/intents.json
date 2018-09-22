@@ -5,15 +5,22 @@
             "intents": [
                 {
                     "name": "AMAZON.CancelIntent",
-                    "samples": []
+                    "samples": [
+                        "cancel"
+                    ]
                 },
                 {
                     "name": "AMAZON.HelpIntent",
-                    "samples": []
+                    "samples": [
+                        "how to use",
+                        "manual"
+                    ]
                 },
                 {
                     "name": "AMAZON.StopIntent",
-                    "samples": []
+                    "samples": [
+                        "stop"
+                    ]
                 },
                 {
                     "name": "AssessmentIntent",
@@ -30,40 +37,15 @@
                     "name": "ExitIntent",
                     "slots": [],
                     "samples": [
+                        "exit",
                         "I am done"
-                    ]
-                },
-                {
-                    "name": "FeelingIntent",
-                    "slots": [],
-                    "samples": [
-                        "Talk to me.",
-                        "Lets talk.",
-                        "I want to talk.",
-                        "I want to talk about my day.",
-                        "I want to talk about my mood.",
-                        "I want to talk about my feelings."
-                    ]
-                },
-                {
-                    "name": "MoodResponseIntent",
-                    "slots": [
-                        {
-                            "name": "feeling",
-                            "type": "mood",
-                            "samples": [
-                                "{feeling}"
-                            ]
-                        }
-                    ],
-                    "samples": [
-                        "I'm feeling {feeling}"
                     ]
                 },
                 {
                     "name": "ProfessionalHelpIntent",
                     "slots": [],
                     "samples": [
+                        "look for professional help",
                         "find nearby help",
                         "Find a nearby clinic",
                         "Find professional help",
@@ -97,84 +79,26 @@
                     ]
                 },
                 {
-                    "name": "RepeatIntent",
-                    "slots": [],
+                    "name": "AMAZON.RepeatIntent",
                     "samples": [
-                        "can you repeat",
                         "say that again",
                         "repeat that"
                     ]
-                }
-            ],
-            "types": [
+                },
                 {
-                    "name": "mood",
-                    "values": [
-                        {
-                            "name": {
-                                "value": "bad",
-                                "synonyms": [
-                                    "terrible",
-                                    "horrible",
-                                    "sad",
-                                    "depressed"
-                                ]
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "good",
-                                "synonyms": [
-                                    "great",
-                                    "fantastic",
-                                    "awesome"
-                                ]
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "okay",
-                                "synonyms": [
-                                    "soso",
-                                    "all right",
-                                    "not bad"
-                                ]
-                            }
-                        }
-                    ]
-                }
-            ]
-        },
-        "dialog": {
-            "intents": [
-                {
-                    "name": "MoodResponseIntent",
-                    "confirmationRequired": false,
-                    "prompts": {},
+                    "name": "SentimentIntent",
                     "slots": [
                         {
-                            "name": "feeling",
-                            "type": "mood",
-                            "confirmationRequired": false,
-                            "elicitationRequired": true,
-                            "prompts": {
-                                "elicitation": "Elicit.Intent-MoodResponseIntent.IntentSlot-feeling"
-                            }
+                            "name": "phrase",
+                            "type": "AMAZON.SearchQuery"
                         }
+                    ],
+                    "samples": [
+                        "Today {phrase}"
                     ]
                 }
-            ]
-        },
-        "prompts": [
-            {
-                "id": "Elicit.Intent-MoodResponseIntent.IntentSlot-feeling",
-                "variations": [
-                    {
-                        "type": "PlainText",
-                        "value": "How are you feeling today?"
-                    }
-                ]
-            }
-        ]
+            ],
+            "types": []
+        }
     }
 }

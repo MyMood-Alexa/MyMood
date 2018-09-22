@@ -14,45 +14,36 @@ ask = Ask(app, '/')
 def start_app():
     init_session()
 
-    start_msg = ("Hello. You can tell me about your day,")
-    """ take an assessment, "
-                 "or ask me to look for professional help... "
-                 "Which would you like?")"""
-
+    start_msg = ("Hello. Tell me about your day.")
     reprompt_msg = ("Would you like to talk about your day, "
                     "take an assessment, or look for professional help?")
 
     session.attributes['State'] = "None"
-
     session.attributes['responses'].append(start_msg)
 
     return question(start_msg) \
         .reprompt(reprompt_msg)
 
 
-@ask.intent('FeelingIntent')
-def feelings():
-    exit_msg = "How do you feel?"
-    reprompt_msg = "I didn't get that. How are you feeling?"
-    return question(exit_msg) \
-        .reprompt(reprompt_msg)
-
-
-@ask.intent('MoodResponseIntent')
-def mood_response():
-    pass
+@ask.intent('SentimentIntent')
+def sentiment_response(phrase):
+    if (session.attributes.get('session_id') is None):
+        init_session()
+    msg = "Today, {}.".format(phrase)
+    no_phrase_msg = "I didn't quite get that. How was your day?"
+    if (phrase is None):
+        return question(no_phrase_msg) \
+            .reprompt(no_phrase_msg)
+    return statement(msg)
 
 
 # Differential Diagnosis Decision Tree constructed from DSM-IV
 @ask.intent('AssessmentIntent')
 def assessment():
-    # initialize sessionid if it hasnt been already
     if (session.attributes.get('session_id') is None):
         init_session()
-    # initiate assessment response for checking
     if (session.attributes.get('assess_response') is None):
         session.attributes['assess_response'] = "unknown"
-    # turn on state
     if (session.attributes.get('State') is None
         or session.attributes['State'] != "Assessment"
         or session.attributes['assess_response'] == "unknown"):
@@ -63,7 +54,6 @@ def assessment():
         session.attributes['assess_major_dep'] = "unknown"
         session.attributes['assess_mixed'] = "unknown"
 
-    # possible responses
     responses = {'-1': "I encountered a problem. You will have to start over. "
                        "Sorry for the inconvenience",
                  '1': "Are you in a depressed, elevated, or irritable mood?",
@@ -107,7 +97,6 @@ def assessment():
                  '28': "no mood disorder",
                  }
 
-    # logic to pick pick correct question or answer
     if (session.attributes['assess_step'] == "0"):
         session.attributes['assess_step'] = "1"
     elif (session.attributes['assess_step'] == "1"):
@@ -238,7 +227,6 @@ def assessment():
     else:
         session.attributes['assess_step'] = "-1"
 
-    # prepare message
     next_step = responses.get(session.attributes['assess_step'], "-1")
 
     # convert assess_step to determine if assessment is done
@@ -247,30 +235,22 @@ def assessment():
     # assessment complete
     if (stepInt > 12 or stepInt < 0):
         if (stepInt == 28):
-            # return no disorder diagnosis
             msg = "Congratulations. You have {}".format(next_step)
         elif (stepInt > 12):
-            # return disorder diagnosis
             msg = ("You may be experiencing a {}. Keep in mind, I am not an "
                    "expert. Seek professional advice if you must."
                    .format(next_step))
         else:
             # return error message
             msg = next_step
-        # save result if user wants to repeat diagnosis / error message
         session.attributes['Repeat'] = msg
         reprompt_msg = ("Would you like to talk about your day, "
                         "take an assessment, or look for professional help?")
-
-        # reset session state
         session.attributes['State'] = "None"
         return statement(msg)
     else:
-        # reset assessment response
         session.attributes['assess_response'] = "unknown"
-        # return next question
         msg = next_step
-        # save msg if user wants to repeat
         session.attributes['Repeat'] = msg
         reprompt_msg = "I didn't quite get that, {}".format(msg)
         return question(msg) \
