@@ -76,7 +76,8 @@ def get_all_interactions():
 
     for s in response['Items']:
         interaction = Interaction(s['sessionId'], s['time'], s['responses'],
-                                  s['deviceId'], s['user_id'])
+                                  s['deviceId'], s['userId'])
+        Interaction.print_interaction(interaction)
         interactions.append(interaction)
 
     return interactions
