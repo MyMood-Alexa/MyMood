@@ -70,7 +70,9 @@ def find_nearby_help():
             # extracting first place_id
             place_id = places_json['results'][0]['place_id']
             detailsURL = ("https://maps.googleapis.com/maps/api/place/details/"
-                          "json?placeid={}&key={}".format(place_id, key))
+                          "json?placeid={}"
+                          "&fields=name,international_phone_number"
+                          "&key={}".format(place_id, key))
 
             # request for place details
             details_req = requests.get(detailsURL)
