@@ -14,12 +14,13 @@ ask = Ask(app, '/')
 def start_app():
     init_session()
 
-    start_msg = ("Hello. Tell me about your day.")
+    start_msg = ("Hello. Would you like to tell me about your day, "
+                    "take an assessment, or look for professional help?")
     reprompt_msg = ("Would you like to talk about your day, "
                     "take an assessment, or look for professional help?")
 
     session.attributes['State'] = "None"
-    session.attributes['responses'].append(start_msg)
+    append_response(start_msg)
 
     return question(start_msg) \
         .reprompt(reprompt_msg)
@@ -34,6 +35,10 @@ def sentiment_response(phrase):
     if (phrase is None):
         return question(no_phrase_msg) \
             .reprompt(no_phrase_msg)
+    
+    append_response(phrase)
+    append_response(msg)
+    add_database()
     return statement(msg)
 
 
@@ -247,8 +252,11 @@ def assessment():
         reprompt_msg = ("Would you like to talk about your day, "
                         "take an assessment, or look for professional help?")
         session.attributes['State'] = "None"
+        append_response(msg)
+        add_database()
         return statement(msg)
     else:
+        append_response(next_step)
         session.attributes['assess_response'] = "unknown"
         msg = next_step
         session.attributes['Repeat'] = msg
@@ -257,16 +265,12 @@ def assessment():
             .reprompt(reprompt_msg)
 
 
-@ask.intent('SuggestionIntent')
-def suggest():
-    exit_msg = "Here are some suggestions"
-    return statement(exit_msg)
-
-
 @ask.intent('ProfessionalHelpIntent')
 def pro_help():
     helps = locator.find_nearby_help()
     session.attributes['Repeat'] = helps
+    append_response(helps)
+    add_database()
     return statement(helps)
 
 
@@ -274,6 +278,7 @@ def pro_help():
 def yes_intent():
     if (session.attributes['State'] == "Assessment"):
         session.attributes['assess_response'] = "yes"
+        append_response("yes")
         return assessment()
     return start_app()
 
@@ -282,6 +287,7 @@ def yes_intent():
 def no_intent():
     if (session.attributes['State'] == "Assessment"):
         session.attributes['assess_response'] = "no"
+        append_response("no")
         return assessment()
     return start_app()
 
@@ -297,6 +303,7 @@ def repeat_intent():
 @ask.intent('ExitIntent')
 def exit_app():
     exit_msg = "Goodbye."
+    append_response(exit_msg)
     add_database()
     return statement(exit_msg)
 
@@ -304,34 +311,29 @@ def exit_app():
 @ask.intent('AMAZON.StopIntent')
 def stop_intent():
     exit_msg = "Farewell"
+    append_response(exit_msg)
     add_database()
     return statement(exit_msg)
 
 
 @ask.intent('AMAZON.CancelIntent')
 def cancel_intent():
-    add_database()
     exit_msg = "Sayonara"
+    append_response(exit_msg)
+    add_database()
     return statement(exit_msg)
 
 
 @ask.session_ended
 def session_ended():
     add_database()
-    help_msg = "Here is help"
-    return statement(help_msg)
-    #return "{}", 200
+    return "{}", 200
 
 
 @ask.intent('AMAZON.HelpIntent')
 def help_intent():
     help_msg = "Here is help"
     return statement(help_msg)
-
-
-def confirm():
-    confirm_msg = ""
-    return question(confirm_msg)
 
 
 def init_session():
@@ -341,6 +343,10 @@ def init_session():
     session.attributes['device_id'] = ("{}"
                                        .format(context.System.device.deviceId))
     session.attributes['user_id'] = "{}".format(session.user.userId)
+
+
+def append_response(response):
+    session.attributes['responses'].append(response)
 
 
 def add_database():
