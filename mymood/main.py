@@ -42,6 +42,7 @@ def sentiment_intent(phrase):
         msg = "Today, {}.".format(phrase)
         session.attributes['State'] = "None"
         session.attributes['Repeat'] = msg + constants.CONTINUE_PROMPT
+        append_response(phrase)
         append_response(msg + constants.CONTINUE_PROMPT)
         return question(msg + constants.CONTINUE_PROMPT) \
             .reprompt(constants.CONTINUE_PROMPT)
@@ -65,7 +66,7 @@ def assessment_intent():
         return route_state()
 
     responses = {'-1': "I encountered a problem. You will have to start over. "
-                       "Sorry for the inconvenience",
+                       "Sorry for the inconvenience.",
                  '1': "I will ask you a series of questions to try to "
                       "evaluate you. Please answer with yes or no. "
                       "Are you in a depressed, elevated, or irritable mood?",
@@ -90,23 +91,23 @@ def assessment_intent():
                  '11': "Have you been depressed more often than not for two "
                        "or more years?",
                  '12': "Have you been stressed?",
-                 '13': "mood disorder due to a general medical condition.",
-                 '14': "substance induced mood disorder.",
-                 '16': "bipolar one disorder.",
-                 '17': "bipolar type of schizoaffective disorder.",
+                 '13': "mood disorder due to a general medical condition",
+                 '14': "substance induced mood disorder",
+                 '16': "bipolar one disorder",
+                 '17': "bipolar type of schizoaffective disorder",
                  '18': "not otherwise specified bipolar disorder superimposed "
-                       "on a psychotic disorder.",
-                 '19': "bipolar two disorder.",
-                 '20': "cyclothymimc disorder.",
-                 '21': "not otherwise specified bipolar disorder.",
-                 '22': "major depressive disorder.",
-                 '23': "depressive type schizoaffective disorder.",
+                       "on a psychotic disorder",
+                 '19': "bipolar two disorder",
+                 '20': "cyclothymimc disorder",
+                 '21': "not otherwise specified bipolar disorder",
+                 '22': "major depressive disorder",
+                 '23': "depressive type schizoaffective disorder",
                  '24': "not otherwise specified depressive disorder "
-                       "superimposed on a psychotic disorder.",
-                 '25': "dysthymic disorder.",
-                 '26': "adjustment disorder with depressed mood.",
-                 '27': "not otherwise specified depressive disorder.",
-                 '28': "no mood disorder.",
+                       "superimposed on a psychotic disorder",
+                 '25': "dysthymic disorder",
+                 '26': "adjustment disorder with depressed mood",
+                 '27': "not otherwise specified depressive disorder",
+                 '28': "no mood disorder",
                  }
 
     if (session.attributes['assess_step'] == "0"):
@@ -248,7 +249,7 @@ def assessment_intent():
     # assessment complete
     if (stepInt > 12 or stepInt < 0):
         if (stepInt == 28):
-            msg = ("Congratulations. You have {}".format(next_step) + 
+            msg = ("Congratulations. You have {}.".format(next_step) + 
                    constants.CONTINUE_PROMPT)
         elif (stepInt > 12):
             msg = ("You may be experiencing a {}. Keep in mind, I am not an "
