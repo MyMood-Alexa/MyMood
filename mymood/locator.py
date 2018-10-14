@@ -40,7 +40,7 @@ def find_nearby_help():
         address, city, state = get_location()
     except:
         return ("I don't have permission to get your location. "
-                "Please allow access to your location and try again")
+                "Please allow access to your location and try again.")
 
     location = "'{} {} {}'".format(address, city, state)
     geocodeURL = ("https://maps.googleapis.com/maps/api/geocode/json?"

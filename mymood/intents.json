@@ -34,14 +34,6 @@
                     ]
                 },
                 {
-                    "name": "ExitIntent",
-                    "slots": [],
-                    "samples": [
-                        "exit",
-                        "I am done"
-                    ]
-                },
-                {
                     "name": "ProfessionalHelpIntent",
                     "slots": [],
                     "samples": [
@@ -56,26 +48,6 @@
                         "Where can I find help",
                         "Where can I get help.",
                         "I need help"
-                    ]
-                },
-                {
-                    "name": "YesIntent",
-                    "slots": [],
-                    "samples": [
-                        "always",
-                        "often",
-                        "sometimes",
-                        "sure",
-                        "yes"
-                    ]
-                },
-                {
-                    "name": "NoIntent",
-                    "slots": [],
-                    "samples": [
-                        "nope",
-                        "never",
-                        "no"
                     ]
                 },
                 {
@@ -96,6 +68,18 @@
                     "samples": [
                         "Today {phrase}"
                     ]
+                },
+                {
+                    "name": "AMAZON.YesIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.NoIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.NavigateHomeIntent",
+                    "samples": []
                 }
             ],
             "types": []
