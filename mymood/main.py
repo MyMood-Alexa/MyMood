@@ -368,7 +368,8 @@ def route_state():
 
 def init_session():
     session.attributes['session_id'] = "{}".format(session.sessionId)
-    session.attributes['session_time'] = str(datetime.datetime.now())
+    session.attributes['session_time'] = ("{:%m-%d-%Y %I:%M:%S %p}"
+                                       .format(datetime.datetime.now()))
     session.attributes['responses'] = []
     session.attributes['device_id'] = ("{}"
                                        .format(context.System.device.deviceId))
