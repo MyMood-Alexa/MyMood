@@ -5,8 +5,10 @@ import constants
 import database
 import datetime
 import locator
+import pickle
 import random
-
+import re
+import string
 
 app = Flask(__name__)
 ask = Ask(app, '/')
@@ -34,12 +36,13 @@ def sentiment_intent(phrase):
 
     if (phrase is None):
         session.attributes['State'] = "None"
-        session.attributes['Repeat'] = (constants.RETRY_MSG + 
+        session.attributes['Repeat'] = (constants.RETRY_MSG +
                                         constants.SENTIMENT_PROMPT)
         return question(constants.RETRY_MSG + constants.SENTIMENT_PROMPT) \
             .reprompt(constants.RETRY_MSG + constants.SENTIMENT_PROMPT)
     else:
-        msg = "Today, {}.".format(phrase)
+        prediction = predict_phrase(phrase)
+        msg = str(prediction) + ". " + "Today, {}.".format(phrase)
         session.attributes['State'] = "None"
         session.attributes['Repeat'] = msg + constants.CONTINUE_PROMPT
         append_response(phrase)
@@ -249,7 +252,7 @@ def assessment_intent():
     # assessment complete
     if (stepInt > 12 or stepInt < 0):
         if (stepInt == 28):
-            msg = ("Congratulations. You have {}.".format(next_step) + 
+            msg = ("Congratulations. You have {}.".format(next_step) +
                    constants.CONTINUE_PROMPT)
         elif (stepInt > 12):
             msg = ("You may be experiencing a {}. Keep in mind, I am not an "
@@ -281,7 +284,7 @@ def pro_help_intent():
         session.attributes['State'] = "ProfessionalHelp"
     elif (session.attributes['State'] != "ProfessionalHelp"):
         return route_state()
-        
+
     helps = locator.find_nearby_help()
     session.attributes['State'] = "None"
     session.attributes['Repeat'] = helps + constants.CONTINUE_PROMPT
@@ -386,6 +389,20 @@ def add_database():
                              session.attributes['responses'],
                              session.attributes['device_id'],
                              session.attributes['user_id'])
+
+
+def tokenize(s):
+    re_tok = re.compile(f'([{string.punctuation}“”¨«»®´·º½¾¿¡§£₤‘’])')
+    return re_tok.sub(r' \1 ', s).split()
+
+
+def predict_phrase(phrase):
+    model = pickle.load(open("model.pkl", "rb"))
+    vect = pickle.load(open("vect.pkl", "rb"))
+    data = []
+    data.append(phrase)
+    transformed_data = vect.transform(data)
+    return int(model.predict(transformed_data))
 
 
 if __name__ == '__main__':
