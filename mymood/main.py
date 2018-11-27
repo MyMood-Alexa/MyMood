@@ -19,7 +19,7 @@ def start_app():
     init_session()
     session.attributes['State'] = "None"
     session.attributes['Repeat'] = constants.STARTUP_MSG
-    append_response(constants.STARTUP_MSG)
+    append_response(constants.TAG_ALEXA + constants.STARTUP_MSG)
     return question(constants.STARTUP_MSG) \
         .reprompt(constants.RETRY_MSG + constants.HELP_MSG)
 
@@ -50,8 +50,8 @@ def sentiment_intent(phrase):
             msg = constants.UNEXPECTED_ERROR
         session.attributes['State'] = "None"
         session.attributes['Repeat'] = msg + constants.CONTINUE_PROMPT
-        append_response(phrase)
-        append_response(msg + constants.CONTINUE_PROMPT)
+        append_response(constants.TAG_USER + phrase)
+        append_response(constants.TAG_ALEXA + msg + constants.CONTINUE_PROMPT)
         return question(msg + constants.CONTINUE_PROMPT) \
             .reprompt(constants.CONTINUE_PROMPT)
 
@@ -70,6 +70,7 @@ def assessment_intent():
         session.attributes['assess_hypomanic'] = "unknown"
         session.attributes['assess_major_dep'] = "unknown"
         session.attributes['assess_mixed'] = "unknown"
+        append_response(constants.TAG_USER + "Take an assessment")
     elif (session.attributes['State'] != "Assessment"):
         return route_state()
 
@@ -268,14 +269,14 @@ def assessment_intent():
             msg = next_step + constants.CONTINUE_PROMPT
         session.attributes['State'] = "None"
         session.attributes['Repeat'] = msg
-        append_response(msg)
+        append_response(constants.TAG_ALEXA + msg)
         return question(msg) \
             .reprompt(constants.CONTINUE_PROMPT)
     else:
         msg = next_step
         session.attributes['assess_response'] = "unknown"
         session.attributes['Repeat'] = msg
-        append_response(next_step)
+        append_response(constants.TAG_ALEXA + next_step)
         return question(msg) \
             .reprompt(constants.RETRY_MSG + msg)
 
@@ -287,13 +288,14 @@ def pro_help_intent():
     if (session.attributes.get('State') is None
         or session.attributes['State'] == "None"):
         session.attributes['State'] = "ProfessionalHelp"
+        append_response(constants.TAG_USER + "Find professional help")
     elif (session.attributes['State'] != "ProfessionalHelp"):
         return route_state()
 
     helps = locator.find_nearby_help()
     session.attributes['State'] = "None"
     session.attributes['Repeat'] = helps + constants.CONTINUE_PROMPT
-    append_response(helps + constants.CONTINUE_PROMPT)
+    append_response(constants.TAG_ALEXA + helps + constants.CONTINUE_PROMPT)
     return question(helps + constants.CONTINUE_PROMPT) \
         .reprompt(constants.CONTINUE_PROMPT)
 
@@ -302,7 +304,7 @@ def pro_help_intent():
 def yes_intent():
     if (session.attributes['State'] == "Assessment"):
         session.attributes['assess_response'] = "yes"
-        append_response("yes")
+        append_response(constants.TAG_USER + "Yes")
         return assessment_intent()
     return question(constants.RETRY_MSG + constants.HELP_MSG) \
         .reprompt(constants.RETRY_MSG + constants.HELP_MSG)
@@ -312,7 +314,7 @@ def yes_intent():
 def no_intent():
     if (session.attributes['State'] == "Assessment"):
         session.attributes['assess_response'] = "no"
-        append_response("no")
+        append_response(constants.TAG_USER + "No")
         return assessment_intent()
     return question(constants.RETRY_MSG + constants.HELP_MSG) \
         .reprompt(constants.RETRY_MSG + constants.HELP_MSG)
@@ -336,7 +338,8 @@ def help_intent():
 @ask.intent('AMAZON.NavigateHomeIntent')
 def nav_home_intent():
     exit_msg = random.choice(constants.EXIT_MSG)
-    append_response(exit_msg)
+    append_response(constants.TAG_USER + "Home")
+    append_response(constants.TAG_ALEXA + exit_msg)
     add_database()
     return statement(exit_msg)
 
@@ -344,7 +347,8 @@ def nav_home_intent():
 @ask.intent('AMAZON.StopIntent')
 def stop_intent():
     exit_msg = random.choice(constants.EXIT_MSG)
-    append_response(exit_msg)
+    append_response(constants.TAG_USER + "Stop")
+    append_response(constants.TAG_ALEXA + exit_msg)
     add_database()
     return statement(exit_msg)
 
@@ -352,7 +356,8 @@ def stop_intent():
 @ask.intent('AMAZON.CancelIntent')
 def cancel_intent():
     exit_msg = random.choice(constants.EXIT_MSG)
-    append_response(exit_msg)
+    append_response(constants.TAG_USER + "Cancel")
+    append_response(constants.TAG_ALEXA + exit_msg)
     add_database()
     return statement(exit_msg)
 

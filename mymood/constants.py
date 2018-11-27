@@ -43,4 +43,10 @@ STARTUP_MSG = ("Welcome to My Mood. You can take an assessment, look for "
                "beginning with the word, today. Which would you like?")
 
 
+TAG_ALEXA = "Alexa: "
+
+
+TAG_USER = "User: "
+
+
 UNEXPECTED_ERROR = "I'm sorry, something went wrong. Please try again later."
