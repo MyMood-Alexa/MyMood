@@ -1,6 +1,7 @@
-import requests
-import logging
 import config
+import constants
+import logging
+import requests
 from flask_ask import context, statement
 
 
@@ -88,5 +89,4 @@ def find_nearby_help():
                 return ("I've found professional help nearby. "
                         "The place is called {} and their phone number is {}."
                         .format(place_name, place_phone))
-    return ("Sorry, I'm having trouble doing that right now. "
-            "Please try again later.")
+    return (constants.UNEXPECTED_ERROR)

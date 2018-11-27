@@ -42,7 +42,12 @@ def sentiment_intent(phrase):
             .reprompt(constants.RETRY_MSG + constants.SENTIMENT_PROMPT)
     else:
         prediction = predict_phrase(phrase)
-        msg = str(prediction) + ". " + "Today, {}.".format(phrase)
+        if (prediction == 1):
+            msg = random.choice(constants.POS_SENTIMENT_MSG)
+        elif (prediction == 0):
+            msg = random.choice(constants.NEG_SENTIMENT_MSG)
+        else:
+            msg = constants.UNEXPECTED_ERROR
         session.attributes['State'] = "None"
         session.attributes['Repeat'] = msg + constants.CONTINUE_PROMPT
         append_response(phrase)
