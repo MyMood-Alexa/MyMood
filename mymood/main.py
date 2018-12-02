@@ -50,7 +50,7 @@ def sentiment_intent(phrase):
             msg = constants.UNEXPECTED_ERROR
         session.attributes['State'] = "None"
         session.attributes['Repeat'] = msg + constants.CONTINUE_PROMPT
-        append_response(constants.TAG_USER + phrase)
+        append_response(constants.TAG_USER + "Today, " + phrase)
         append_response(constants.TAG_ALEXA + msg + constants.CONTINUE_PROMPT)
         return question(msg + constants.CONTINUE_PROMPT) \
             .reprompt(constants.CONTINUE_PROMPT)
