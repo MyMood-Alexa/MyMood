@@ -43,19 +43,23 @@ The following is a list of components relevant to MyMood:
 
 #### Scrum Process
 
-* Issues are tracked on [Waffle.io](https://waffle.io/lydarren/MyMood)
+* Issues are tracked on [Waffle.io](https://waffle.io/MyMood-Alexa/MyMood)
 * Sprints start Tuesday morning and end Monday night
 * Developers should attempt to have their tasks completed by Saturday and address feedback by Monday night
 
 #### Developer Guidelines
 
-* There are 3 repositories total:  [Dev Guide & User Manual](https://github.com/MyMood-Alexa/MyMood-DevGuideUserManual),  [Database Interface](https://github.com/MyMood-Alexa/MyMood-Interface), and  [Alexa App](https://github.com/lydarren/MyMood)
+* There are 3 repositories total:  [Dev Guide & User Manual](https://github.com/MyMood-Alexa/MyMood-DevGuideUserManual),  [Database Interface](https://github.com/MyMood-Alexa/MyMood-Interface), and  [Alexa App](https://github.com/MyMood-Alexa/MyMood)
 * Python code should follow the  [PEP8 style](https://www.python.org/dev/peps/pep-0008/). Use [PEP8 online tool](http://pep8online.com/) if unsure
-* [Interface](mymood.me) code runs on HTML, CSS, and JavaScript. They should follow these conventions:
-[https://www.w3schools.com/html/html5_syntax.asp](https://www.w3schools.com/html/html5_syntax.asp)
-[https://google.github.io/styleguide/htmlcssguide.html](https://google.github.io/styleguide/htmlcssguide.html)
-[https://www.w3schools.com/js/js_conventions.asp](https://www.w3schools.com/js/js_conventions.asp)
-One exception is that we prefer
+* [Interface](https://mymood.me) code runs on HTML, CSS, and JavaScript. They should follow these conventions:
+
+  [https://www.w3schools.com/html/html5_syntax.asp](https://www.w3schools.com/html/html5_syntax.asp)
+  
+  [https://google.github.io/styleguide/htmlcssguide.html](https://google.github.io/styleguide/htmlcssguide.html)
+  
+  [https://www.w3schools.com/js/js_conventions.asp](https://www.w3schools.com/js/js_conventions.asp)
+  
+  One exception is that we prefer
 ```
 if(...) {
 	...
@@ -81,11 +85,14 @@ if(...) {
 
 #### Python Environment
 
-1.  Download and Install  [Anaconda and Spyder](https://www.anaconda.com/download/)
-2.  Using the Anaconda Prompt:  
-    Check that Python 3.x is installed with ```python --version```
-    Use: ```conda install python=3.6``` and ```conda update python``` if it isn't
-    Install Flask-Ask framework with ```conda install -c anaconda flask``` on the Anaconda Prompt
+1. Download and Install  [Anaconda and Spyder](https://www.anaconda.com/download/)
+2. Using the Anaconda Prompt:
+
+   Check that Python 3.x is installed with ```python --version```
+
+   Use: ```conda install python=3.6``` and ```conda update python``` if it isn't
+   
+   Install Flask-Ask framework with ```conda install -c anaconda flask``` on the Anaconda Prompt
 
 #### DynamoDB
 
@@ -124,10 +131,10 @@ conda install -c anaconda boto3
 
 #### Setting Up the Local Repository
 
-1. Fork organization’s master repository at [https://github.com/lydarren/MyMood](https://github.com/lydarren/MyMood) to your own GitHub
+1. Fork organization’s master repository at [https://github.com/MyMood-Alexa/MyMood](https://github.com/MyMood-Alexa/MyMood) to your own GitHub
 2. ```git clone https://github.com/<your_github_id>/MyMood```
 3. ```git remote -v``` should show 2 origin links
-4. ```git remote add upstream [https://github.com/lydarren/MyMood```
+4. ```git remote add upstream [https://github.com/MyMood-Alexa/MyMood```
 5. ```git remote -v``` should show 2 origin links and 2 upstream links
 
 #### Pull Request Workflow
