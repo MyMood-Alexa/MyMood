@@ -8,17 +8,17 @@ My Mood is an interactive Alexa application that a user can talk about their day
 
 MyMood has three main features:  
 * Sentiment analysis based on user's raw input
-	* Activated with the keyword "Today". Ex: "Today, it's my birthday"
-	* Currently passes the input to a Naive-Bayes classifier to determine the sentiment. Classifier is trained with data set provided by [sentiment140](http://help.sentiment140.com/for-students)
-	* Responds with congratulatory or sympathetic statement based on classification
+    * Activated with the keyword "Today". Ex: "Today, it's my birthday"
+    * Currently passes the input to a Naive-Bayes classifier to determine the sentiment. Classifier is trained with data set provided by [sentiment140](http://help.sentiment140.com/for-students)
+    * Responds with congratulatory or sympathetic statement based on classification
 * Diagnose the user for depression with a series of questions
-	* Activated with the intent trigger "take an assessment"
-	* Questions are based off of the Diagnostic and Statistical Manual of Mental Disorders, 4th Edition
-	* Computes using a decision tree constructed based on the "Differential Diagnosis of Mood Disorders" from the manual above
+    * Activated with the intent trigger "take an assessment"
+    * Questions are based off of the Diagnostic and Statistical Manual of Mental Disorders, 4th Edition
+    * Computes using a decision tree constructed based on the "Differential Diagnosis of Mood Disorders" from the manual above
 * Locate a nearby clinic using the set Alexa location in conjunction with Google Places API
-	* Activated with the intent trigger "look for professional help"
-	* Sends a get request to the  [Amazon Device Address API](https://developer.amazon.com/docs/custom-skills/device-address-api.html)  if the user has granted authorization
-	* Uses the location obtained to retrieve the details of a nearby mental health institute by issuing a series of get requests to [Google Places API](https://developers.google.com/places/)
+    * Activated with the intent trigger "look for professional help"
+    * Sends a get request to the  [Amazon Device Address API](https://developer.amazon.com/docs/custom-skills/device-address-api.html)  if the user has granted authorization
+    * Uses the location obtained to retrieve the details of a nearby mental health institute by issuing a series of get requests to [Google Places API](https://developers.google.com/places/)
 
 ### Components
 
@@ -59,27 +59,28 @@ The following is a list of components relevant to MyMood:
   
   [https://www.w3schools.com/js/js_conventions.asp](https://www.w3schools.com/js/js_conventions.asp)
   
-  One exception is that we prefer
+One exception is that we prefer
 ```
 if(...) {
-	...
+    ...
 }
 else {
-	...
+    ...
 }
 ```
 over
 ```
 if(...) {
-	...
+    ...
 } else {
-	...
+    ...
 }
 ```
 * Code should be tested before issuing a pull request
 * Code needs to be reviewed and receive the approval of 2 other developers before being rebased and merged
-* There should be 1 commit per task, even if changes were made in response to feedback. This makes issue tracking and bug fixing a lot easier. Each commit should also have a matching issue in waffle with the same header
-    E.g. If the task is to add a button to the interface, there should only be 1 commit for it in the commit tree
+* There should be 1 commit per task, even if changes were made in response to feedback. This makes issue tracking and bug fixing a lot easier. Each commit should also have a matching issue in waffle with the same header.
+
+   E.g. If the task is to add a button to the interface, there should only be 1 commit for it in the commit tree
 
 ### Environment Setup Instructions
 
@@ -134,7 +135,7 @@ conda install -c anaconda boto3
 1. Fork organization’s master repository at [https://github.com/MyMood-Alexa/MyMood](https://github.com/MyMood-Alexa/MyMood) to your own GitHub
 2. ```git clone https://github.com/<your_github_id>/MyMood```
 3. ```git remote -v``` should show 2 origin links
-4. ```git remote add upstream [https://github.com/MyMood-Alexa/MyMood```
+4. ```git remote add upstream https://github.com/MyMood-Alexa/MyMood```
 5. ```git remote -v``` should show 2 origin links and 2 upstream links
 
 #### Pull Request Workflow
@@ -143,13 +144,13 @@ conda install -c anaconda boto3
 2. ```git pull --rebase upstream master``` to get the latest source code from the master repository while putting your commits on top
 3. ```git push``` to push to your forked repository, or ```git push upstream <your_local_branch>:<remote_branch>``` to push to your branch on the master repository
 4. Submit pull request:
-	* If needed to fulfill a subtask: Add “required by #<issue_number>” to pull review description
-	* If needed to fix a bug: Add “closes #<issue_number>” to pull review description
-	* Attach testing screenshots to you pull review description
+    * If needed to fulfill a subtask: Add “required by #<issue_number>” to pull review description
+    * If needed to fix a bug: Add “closes #<issue_number>” to pull review description
+    * Attach testing screenshots to your pull review description
 5. Address any feedback regarding your pull request and retest if needed. When your pull review has received at least 2 approvals, it can be rebased and merged
 
 ### Waffle management
 
 * Epics should have <feature_abbreviation-milestone_number> tags
-	Ex: Sentiment Analysis Milestone 1 would look like this: [SA-1]
+    Ex: Sentiment Analysis Milestone 1 would look like this: [SA-1]
 * To add a subtask to an epic, add "child of #<epic_issue_number>" and "connects #<epic_issue_number>" to the subtask description
